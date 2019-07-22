@@ -2,30 +2,29 @@ const express = require("express");
 const router = express.Router();
 const {checkKey} = require("../tools/checkKey");
 //const {SaveToShopify} = require("../classes/saveToShopify");
+const {GetData} = require("../classes/getData");
 const {Status} = require("../models/statusModel");
 const {URLUS,USERK,USERP} = require('../config');
 
 router.get("/old",checkKey,(req,res) =>{
-	let productID = req.query.productid;
-	return Status.create({
-		product_id:'1234',
-		product_title:'test',
-		published_at:'5678'
-	})
 
-	.then(product => {
+	let getData = new GetData(URLUS,USERK,USERP);
+	return getData.getData([],0)
+
+	.then(productData => {
+		console.log("Product data length: ",productData.length);
 		return res.json({
 			status:200,
-			data:product
+			data:'Done'
 		});
 	})
 
-	.then(product => {
-		//console.log(product.serialize());
-		
-	})
 	.catch(err=>{
-		console.log("Error getting single data: ",err);
+		console.log("Error saving old data: ",err);
+		return res.json({
+			status:500,
+			data:err
+		});
 	})
 });
 
