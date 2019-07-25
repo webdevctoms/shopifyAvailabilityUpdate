@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {checkKey} = require("../tools/checkKey");
 const {OldData} = require("../classes/saveDB");
+const {SetAvailable} = require('../classes/setAvailable');
 const {GetData} = require("../classes/getData");
 const {Status} = require("../models/statusModel");
 const {SaveToShopify} = require('../classes/saveToShopify');
@@ -36,8 +37,7 @@ router.get("/old",checkKey,(req,res) =>{
 //save backup
 router.get("/shopifyBackup",checkKey,(req,res) =>{
 
-	let getData = new GetData(URLUS,USERK,USERP);
-	return getData.getData([],0)
+	return Status.find({})
 
 	.then(productData => { 
 
@@ -61,13 +61,18 @@ router.get("/shopifyBackup",checkKey,(req,res) =>{
 		});
 	});
 });
-
+//modify data then save it
 router.get("/shopifyUpdate",checkKey,(req,res) =>{
 
-	return Status.find({})
+	let getData = new GetData(URLUS,USERK,USERP);
+	return getData.getData([],0)
 
 	.then(productData => {
-		let saveToShopify = new SaveToShopify(productData,URLUS,USERK,USERP);
+		console.log("data from shopify length: ",productData.length);
+		let setAvailable = new SetAvailable(productData);
+		let adjustedData = setAvailable.convertData();
+
+		let saveToShopify = new SaveToShopify(adjustedData,URLUS,USERK,USERP);
 
 		return saveToShopify.saveData(0,{})
 	})

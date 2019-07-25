@@ -28,7 +28,7 @@ OldData.prototype.saveData = function(productIndex) {
 				else{
 					reject(err);
 				}		
-			})
+			});
 		}
 		else{
 			resolve("Done");

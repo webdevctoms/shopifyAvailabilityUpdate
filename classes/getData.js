@@ -11,7 +11,7 @@ GetData.prototype.getData = function(dataArray,page) {
 		dataArray = [];
 	}
 	let promise = new Promise((resolve,reject) => {
-		let newUrl = this.url + "products.json?" + "limit=250&fields=id,title,published_at";
+		let newUrl = this.url + "products.json?" + "limit=250&fields=id,title,published_at,vendor";
 		if(page !== undefined){
 			newUrl += "&page=" + page;
 		}
@@ -36,6 +36,7 @@ GetData.prototype.getData = function(dataArray,page) {
 					currentObject.id = currentProduct.id;
 					currentObject.published_at = currentProduct.published_at;
 					currentObject.title = currentProduct.title;
+					currentObject.vendor = currentProduct.vendor;
 					//console.log(currentObject.title);
 					dataArray.push(currentObject);
 				}

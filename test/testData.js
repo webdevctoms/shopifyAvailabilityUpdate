@@ -30,7 +30,7 @@ describe('Test Old data with Shopify data',function(){
 		})
 		.catch(err => {
 			console.log(err)
-		})
+		});
 	});
 
 	it('all data should match',function(){
@@ -43,7 +43,7 @@ describe('Test Old data with Shopify data',function(){
 		})
 
 		.then(results => {
-			console.log("=========================results from compare data: ", results.length);
+			console.log("=========================results from compare data: ",results, results.length);
 			expect(results).to.have.lengthOf(0);
 		})
 
