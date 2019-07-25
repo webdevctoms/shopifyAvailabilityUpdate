@@ -10,7 +10,7 @@ GetData.prototype.getData = function(dataArray,page) {
 	if(dataArray === undefined){
 		dataArray = [];
 	}
-	var promise = new Promise((resolve,reject) => {
+	let promise = new Promise((resolve,reject) => {
 		let newUrl = this.url + "products.json?" + "limit=250&fields=id,title,published_at";
 		if(page !== undefined){
 			newUrl += "&page=" + page;
